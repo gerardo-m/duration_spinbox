@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Duration _duration = const Duration();
+  final Duration _duration = const Duration(seconds: 30);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DurationSpinbox(value: _duration,),
+            DurationSpinbox(value: _duration, stepUnit: StepUnit.minutes, stepValue: 5,),
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.
