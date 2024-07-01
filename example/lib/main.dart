@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:duration_spinbox/duration_spinbox.dart';
 
 void main() {
+  // num a = 3;
+  // num b = 2;
+  // num z = 9;
+  // print(z.clamp(a, b));
   runApp(const MyApp());
 }
 
@@ -14,7 +18,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+        ),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Duration Spinbox Demo'),
@@ -45,10 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DurationSpinbox(value: _duration, stepUnit: StepUnit.minutes, stepValue: 5,),
+            DurationSpinbox(
+              value: _duration,
+              stepUnit: StepUnit.seconds,
+              stepValue: 30,
+              // min: const Duration(minutes: 1),
+              max: const Duration(minutes: 5),
+            ),
           ],
         ),
-      ),// This trailing comma makes auto-formatting nicer for build methods.
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
