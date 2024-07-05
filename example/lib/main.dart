@@ -53,10 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             DurationSpinbox(
               value: _duration,
-              stepUnit: StepUnit.seconds,
-              stepValue: 30,
-              // min: const Duration(minutes: 1),
-              max: const Duration(minutes: 5),
+              stepValue: const Duration(seconds: 30),
+              min: const Duration(seconds: 30),
+              // max: const Duration(minutes: 5),
             ),
           ],
         ),

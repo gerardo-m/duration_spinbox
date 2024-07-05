@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:duration_spinbox/src/enums.dart';
 import 'package:duration_spinbox/src/spinbox_button.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +12,7 @@ class DurationSpinbox extends StatefulWidget {
   /// {@macro duration_spinbox}
   const DurationSpinbox({
     required this.value,
-    this.stepUnit = StepUnit.seconds,
-    this.stepValue = 1,
+    this.stepValue = const Duration(minutes: 1),
     super.key,
     this.min = Duration.zero,
     this.max,
@@ -23,15 +21,9 @@ class DurationSpinbox extends StatefulWidget {
   /// The duration value represented by this widget
   final Duration value;
 
-  /// Determines the unit that the duration represented by this widget
-  /// will be increased or decreased when using the increase or decrease
-  /// button
-  final StepUnit stepUnit;
-
-  /// Determines how many units (determined by stepUnit) the duration
-  /// represented by this widget will be increased or decreased when
-  /// using the increase or decrease button
-  final int stepValue;
+  /// Determines how much the duration represented by this widget will be 
+  /// increased or decreased when using the increase or decrease button.
+  final Duration stepValue;
 
   /// Determines the minimum value for the duration represented by this
   /// widget. 
@@ -66,8 +58,13 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
     if (minD != null && maxD != null){
       if (maxD < minD) throw ArgumentError('max is less than min');
     }
-    _minutes = widget.value.inSeconds ~/ 60;
-    _seconds = widget.value.inSeconds % 60;
+    if (minD != null){
+      if (widget.value < minD) throw ArgumentError('value is less than min');
+    }
+    if (maxD != null){
+      if (widget.value > maxD) throw ArgumentError('value is greater than max');
+    }
+    _updateValue(widget.value);
   }
 
   @override
@@ -107,16 +104,9 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
   }
 
   /// Calculates the new duration adding the value in the selected stepUnit.
-  Duration _calculateNewDuration(int value){
-    final currDuration = Duration(minutes: _minutes, seconds: _seconds);
-    int millisecondsToAdd;
-    switch (widget.stepUnit) {
-      case StepUnit.minutes:
-        millisecondsToAdd = 60000 * value;
-      case StepUnit.seconds:
-        millisecondsToAdd = 1000 * value;
-    }
-    final newMillisDuration = currDuration.inMilliseconds + millisecondsToAdd;
+  Duration _calculateNewDuration(Duration value){
+    final curDuration = Duration(minutes: _minutes, seconds: _seconds);
+    final newMillisDuration = curDuration.inMilliseconds + value.inMilliseconds;
     return _getNewDuration(newMillisDuration);
   }
 
