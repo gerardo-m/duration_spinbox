@@ -2,4 +2,3 @@
 library;
 
 export 'src/duration_spinbox.dart';
-export 'src/enums.dart';

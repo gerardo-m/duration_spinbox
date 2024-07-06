@@ -1,3 +1,5 @@
-# 0.1.0+1
+# Change Log
 
-- feat: initial commit 🎉
+## [0.1.0]
+
+* Initial Release

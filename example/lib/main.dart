@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:duration_spinbox/duration_spinbox.dart';
 
 void main() {
-  // num a = 3;
-  // num b = 2;
-  // num z = 9;
-  // print(z.clamp(a, b));
   runApp(const MyApp());
 }
 
@@ -38,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Duration _duration = const Duration(seconds: 30);
+  Duration _duration = const Duration(minutes: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +47,35 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Text('Default (min=Duration.zero, no state)'),
+            const DurationSpinbox(
+              value: Duration(minutes: 1),
+            ),
+            const Divider(),
+            const Text('With state'),
             DurationSpinbox(
               value: _duration,
-              stepValue: const Duration(seconds: 30),
-              min: const Duration(seconds: 30),
-              // max: const Duration(minutes: 5),
+              onChanged: (value) {
+                setState(() {
+                  _duration = value;
+                });
+              },
             ),
+            const Divider(),
+            const Text('With min and max'),
+            const DurationSpinbox(
+              value: Duration(minutes: 1),
+              min: Duration(minutes: 1),
+              max: Duration(minutes: 5),
+            ),
+            const Divider(),
+            const Text('No bounds, step value of 5 minutes'),
+            const DurationSpinbox(
+              value: Duration(minutes: 0),
+              min: null,
+              stepValue: Duration(minutes: 5),
+            ),
+            const Divider(),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -1,11 +1,11 @@
 name: duration_spinbox
 description: A duration widget for Flutter, heavily inspired by flutter_spinbox
-version: 0.1.0+1
-
+version: 0.1.0
+repository: https://github.com/gerardo-m/duration_spinbox/
 
 environment:
   sdk: ^3.4.0
-  flutter: ^3.22.0
+  flutter: '>=3.0.0'
 
 dependencies:
   flutter:
