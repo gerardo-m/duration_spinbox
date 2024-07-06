@@ -16,6 +16,7 @@ class DurationSpinbox extends StatefulWidget {
     super.key,
     this.min = Duration.zero,
     this.max,
+    this.onChanged,
   });
 
   /// The duration value represented by this widget
@@ -23,6 +24,8 @@ class DurationSpinbox extends StatefulWidget {
 
   /// Determines how much the duration represented by this widget will be 
   /// increased or decreased when using the increase or decrease button.
+  /// 
+  /// Default: Duration(minutes: 1)
   final Duration stepValue;
 
   /// Determines the minimum value for the duration represented by this
@@ -39,6 +42,10 @@ class DurationSpinbox extends StatefulWidget {
   /// If in any step triggered by one of the buttons is more than this value
   /// the new value will be set to [max].
   final Duration? max;
+
+  /// Callback that is invoked right after the value is changed via the 
+  /// increase or decrease button
+  final void Function(Duration value)? onChanged;
 
   @override
   State<DurationSpinbox> createState() => _DurationSpinboxState();
@@ -82,6 +89,7 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
             setState(() {
               _updateValue(newDuration);
             });
+            widget.onChanged?.call(newDuration);
           },
           icon: const Icon(Icons.remove_circle),
         ),
@@ -96,6 +104,7 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
             setState(() {
               _updateValue(newDuration);
             });
+            widget.onChanged?.call(newDuration);
           },
           icon: const Icon(Icons.add_circle),
         ),
