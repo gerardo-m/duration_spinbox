@@ -242,91 +242,93 @@ void main() {
           expect(widgetTester.takeException(), isA<ArgumentError>());
         },
       );
-
     });
 
-    group('onChanged callback', () {
-      testWidgets(
-        'if onChanged is not null, should be called when pressing the '
-        'increment button',
-        (widgetTester) async {
-          var a = 0;
-          final widget = MaterialApp(
-            home: DurationSpinbox(
-              value: Duration(minutes: 1),
-              onChanged: (value) {
-                a = 1;
-              },
-            ),
-          );
-          await widgetTester.pumpWidget(widget);
-          await widgetTester.tap(find.byIcon(defaultIncrementButton));
-          await widgetTester.pump();
-          expect(a, equals(1));
-        },
-      );
+    group(
+      'onChanged callback',
+      () {
+        testWidgets(
+          'if onChanged is not null, should be called when pressing the '
+          'increment button',
+          (widgetTester) async {
+            var a = 0;
+            final widget = MaterialApp(
+              home: DurationSpinbox(
+                value: Duration(minutes: 1),
+                onChanged: (value) {
+                  a = 1;
+                },
+              ),
+            );
+            await widgetTester.pumpWidget(widget);
+            await widgetTester.tap(find.byIcon(defaultIncrementButton));
+            await widgetTester.pump();
+            expect(a, equals(1));
+          },
+        );
 
-      testWidgets(
-        'if onChanged is not null, should be called when pressing the '
-        'decrement button',
-        (widgetTester) async {
-          var a = 0;
-          final widget = MaterialApp(
-            home: DurationSpinbox(
-              value: Duration(minutes: 1),
-              onChanged: (value) {
-                a = 1;
-              },
-            ),
-          );
-          await widgetTester.pumpWidget(widget);
-          await widgetTester.tap(find.byIcon(defaultDecrementButton));
-          await widgetTester.pump();
-          expect(a, equals(1));
-        },
-      );
+        testWidgets(
+          'if onChanged is not null, should be called when pressing the '
+          'decrement button',
+          (widgetTester) async {
+            var a = 0;
+            final widget = MaterialApp(
+              home: DurationSpinbox(
+                value: Duration(minutes: 1),
+                onChanged: (value) {
+                  a = 1;
+                },
+              ),
+            );
+            await widgetTester.pumpWidget(widget);
+            await widgetTester.tap(find.byIcon(defaultDecrementButton));
+            await widgetTester.pump();
+            expect(a, equals(1));
+          },
+        );
 
-      testWidgets(
-        'if onChanged is not null, when the decrement button is pressed '
-        'the value in the callback should be decreased by the stepValue',
-        (widgetTester) async {
-          Duration? a;
-          final widget = MaterialApp(
-            home: DurationSpinbox(
-              value: Duration(minutes: 2),
-              stepValue: Duration(minutes: 1),
-              onChanged: (value) {
-                a = value;
-              },
-            ),
-          );
-          await widgetTester.pumpWidget(widget);
-          await widgetTester.tap(find.byIcon(defaultDecrementButton));
-          await widgetTester.pump();
-          expect(a, equals(Duration(minutes: 1)));
-        },
-      );
+        testWidgets(
+          'if onChanged is not null, when the decrement button is pressed '
+          'the value in the callback should be decreased by the stepValue',
+          (widgetTester) async {
+            Duration? a;
+            final widget = MaterialApp(
+              home: DurationSpinbox(
+                value: Duration(minutes: 2),
+                stepValue: Duration(minutes: 1),
+                onChanged: (value) {
+                  a = value;
+                },
+              ),
+            );
+            await widgetTester.pumpWidget(widget);
+            await widgetTester.tap(find.byIcon(defaultDecrementButton));
+            await widgetTester.pump();
+            expect(a, equals(Duration(minutes: 1)));
+          },
+        );
 
-      testWidgets(
-        'if onChanged is not null, when the increment button is pressed '
-        'the value in the callback should be increased by the stepValue',
-        (widgetTester) async {
-          Duration? a;
-          final widget = MaterialApp(
-            home: DurationSpinbox(
-              value: Duration(minutes: 2),
-              stepValue: Duration(minutes: 1),
-              onChanged: (value) {
-                a = value;
-              },
-            ),
-          );
-          await widgetTester.pumpWidget(widget);
-          await widgetTester.tap(find.byIcon(defaultIncrementButton));
-          await widgetTester.pump();
-          expect(a, equals(Duration(minutes: 3)));
-        },
-      );
-    },);
+        testWidgets(
+          'if onChanged is not null, when the increment button is pressed '
+          'the value in the callback should be increased by the stepValue',
+          (widgetTester) async {
+            Duration? a;
+            final widget = MaterialApp(
+              home: DurationSpinbox(
+                value: Duration(minutes: 2),
+                stepValue: Duration(minutes: 1),
+                onChanged: (value) {
+                  a = value;
+                },
+              ),
+            );
+            await widgetTester.pumpWidget(widget);
+            await widgetTester.tap(find.byIcon(defaultIncrementButton));
+            await widgetTester.pump();
+            expect(a, equals(Duration(minutes: 3)));
+          },
+        );
+      },
+    );
   });
 }
