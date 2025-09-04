@@ -17,6 +17,7 @@ class DurationSpinbox extends StatefulWidget {
     this.min = Duration.zero,
     this.max,
     this.onChanged,
+    this.formatter,
   });
 
   /// The duration value represented by this widget
@@ -46,6 +47,11 @@ class DurationSpinbox extends StatefulWidget {
   /// Callback that is invoked right after the value is changed via the
   /// increase or decrease button
   final void Function(Duration value)? onChanged;
+
+  /// Define this to override the default format for the duration.
+  /// 
+  /// Return the string that will be displayed in the widget.
+  final String Function(Duration value)? formatter;
 
   @override
   State<DurationSpinbox> createState() => _DurationSpinboxState();
@@ -161,6 +167,10 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
   }
 
   String _formattedDuration() {
+    final formatter = widget.formatter;
+    if (formatter != null){
+      return formatter.call(Duration(minutes: _minutes, seconds: _seconds));
+    }
     final minuteString = _minutes.toString().padLeft(2, '0');
     final secondsString = _seconds.toString().padLeft(2, '0');
     return '$minuteString:$secondsString';

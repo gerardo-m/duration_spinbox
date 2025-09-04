@@ -330,5 +330,47 @@ void main() {
         );
       },
     );
+
+    group('formatter', () {
+      testWidgets('Displays the return value from the formatter callback',
+          (widgetTester) async {
+        const stringToFind = 'Some string';
+        final widget = MaterialApp(
+          home: DurationSpinbox(
+            value: Duration(minutes: 1),
+            formatter: (value) {
+              return stringToFind;
+            },
+          ),
+        );
+        await widgetTester.pumpWidget(widget);
+        expect(find.text(stringToFind), findsOne);
+      });
+
+      testWidgets(
+        'The formatter callback provides the correct value from the '
+        'widget',
+        (widgetTester) async {
+          String stringBuilder(int m, int s){
+            return 'Value is $m minutes and $s seconds';
+          }
+          const minutes = 5;
+          const seconds = 28;
+          final stringTofind = stringBuilder(minutes, seconds);
+          final widget = MaterialApp(
+            home: DurationSpinbox(
+              value: Duration(minutes: minutes, seconds: seconds),
+              formatter: (value) {
+                final minutes = value.inMinutes;
+                final seconds = value.inSeconds.remainder(60);
+                return stringBuilder(minutes, seconds);
+              },
+            ),
+          );
+          await widgetTester.pumpWidget(widget);
+          expect(find.text(stringTofind), findsOne);
+        },
+      );
+    });
   });
 }
