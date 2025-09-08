@@ -76,6 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
               stepValue: Duration(minutes: 5),
             ),
             const Divider(),
+            const Text('Changed format'),
+            const DurationSpinbox(
+              value: Duration(hours: 2, minutes: 1, seconds: 1, milliseconds: 100),
+              stepValue: Duration(seconds: 1),
+              format: DurationFormat.hhhmmssll,
+            ),
+            const Divider(),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.

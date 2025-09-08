@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:duration_spinbox/src/duration_format.dart';
+import 'package:duration_spinbox/src/duration_formatter.dart';
 import 'package:duration_spinbox/src/spinbox_button.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class DurationSpinbox extends StatefulWidget {
     this.max,
     this.onChanged,
     this.formatter,
+    this.format = DurationFormat.mmmss,
   });
 
   /// The duration value represented by this widget
@@ -49,17 +52,21 @@ class DurationSpinbox extends StatefulWidget {
   final void Function(Duration value)? onChanged;
 
   /// Define this to override the default format for the duration.
-  /// 
+  ///
   /// Return the string that will be displayed in the widget.
   final String Function(Duration value)? formatter;
+
+  /// Format of the displayed String. Default is mmmss.
+  /// 
+  /// Can be override by formatter function.
+  final DurationFormat format;
 
   @override
   State<DurationSpinbox> createState() => _DurationSpinboxState();
 }
 
 class _DurationSpinboxState extends State<DurationSpinbox> {
-  int _minutes = 0;
-  int _seconds = 0;
+  Duration _duration = Duration.zero;
   bool _incDisabled = false;
   bool _decDisabled = false;
 
@@ -125,8 +132,7 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
 
   /// Calculates the new duration adding the value in the selected stepUnit.
   Duration _calculateNewDuration(Duration value) {
-    final curDuration = Duration(minutes: _minutes, seconds: _seconds);
-    final newMillisDuration = curDuration.inMilliseconds + value.inMilliseconds;
+    final newMillisDuration = _duration.inMilliseconds + value.inMilliseconds;
     return _getNewDuration(newMillisDuration);
   }
 
@@ -143,8 +149,7 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
     if (maxD != null) {
       _incDisabled = maxD.inMilliseconds == newMillisDuration;
     }
-    _minutes = newDuration.inSeconds ~/ 60;
-    _seconds = newDuration.inSeconds % 60;
+    _duration = newDuration;
   }
 
   /// This method creates a new Duration object with the param provided as
@@ -168,11 +173,9 @@ class _DurationSpinboxState extends State<DurationSpinbox> {
 
   String _formattedDuration() {
     final formatter = widget.formatter;
-    if (formatter != null){
-      return formatter.call(Duration(minutes: _minutes, seconds: _seconds));
+    if (formatter != null) {
+      return formatter.call(_duration);
     }
-    final minuteString = _minutes.toString().padLeft(2, '0');
-    final secondsString = _seconds.toString().padLeft(2, '0');
-    return '$minuteString:$secondsString';
+    return DurationFormatter.format(_duration, widget.format);
   }
 }
