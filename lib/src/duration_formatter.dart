@@ -1,6 +1,7 @@
 import 'package:duration_spinbox/src/duration_format.dart';
 
-/// Internal utility class for formatting durations according to [DurationFormat] patterns.
+/// Internal utility class for formatting durations according to 
+/// [DurationFormat] patterns.
 /// 
 abstract class DurationFormatter{
 

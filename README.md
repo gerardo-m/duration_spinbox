@@ -19,13 +19,10 @@ dart pub add duration_spinbox
 or just add this line to your pubspec.yaml
 
 ```yaml
-duration_spinbox: ^0.1.0
+duration_spinbox: ^0.2.0
 ```
 
-## Usage
-
-Currently this only shows the Duration in the format `mm:ss`, more customization
-options to come in the future.
+## Basic Usage
 
 The only required parameter is `value` which is the initial/current duration.
 
@@ -53,8 +50,22 @@ DurationSpinbox(
 ),
 ```
 
-You can set a minimum and maximum value. By default minimum is `Duration.zero`
-but max is by default `null`.
+## Optional Parameters
+
+### Step Value
+You can set the `stepValue` which is the Duration the value will be increased
+or decreased. By default it is `Duration(minutes: 1)`.
+
+```dart
+DurationSpinbox(
+  value: Duration.zero,
+  stepValue: Duration(minutes: 5),
+),
+```
+
+### Min and Max Values
+You can set a minimum and maximum value. By default min is `Duration.zero`
+and max is `null`.
 
 ```dart
 DurationSpinbox(
@@ -64,29 +75,49 @@ DurationSpinbox(
 ),
 ```
 
-You can set the `stepValue` which is the Duration the value will be increased
-or decreased. By default it is `Duration(minutes: 1)`.
-
-```dart
- DurationSpinbox(
-  value: Duration.zero,
-  stepValue: Duration(minutes: 5),
-),
-```
-
 By default min is equal to Duration.zero, to allow negative values you have to 
 set min to null manually.
 
 ```dart
- DurationSpinbox(
+DurationSpinbox(
   value: Duration(minutes: 0),
   min: null,
 ),
 ```
 
+## Format Options
+
+### Predefined Formats
+There are several predefined formats to show the duration as text, the
+default is mmmss, which means it will show minutes and seconds, with the
+minutes value uncapped. To change it provide a format:
+
+```dart
+DurationSpinbox(
+  value: const Duration(hours: 2, minutes: 1, seconds: 1, milliseconds: 100),
+  stepValue: const Duration(seconds: 1),
+  format: DurationFormat.hhmmss,
+),
+```
+
+### Custom Formatter
+You can also provide a function to format the duration value into a String:
+
+```dart
+DurationSpinbox(
+  value: const Duration(minutes: 1, seconds: 1),
+  stepValue: const Duration(seconds: 1),
+  formatter: (value) {
+    final minutes = value.inMinutes;
+    final seconds = value.inSeconds.remainder(60);
+    return 'Value is $minutes minutes and $seconds seconds';
+  },
+),
+```
+
 ## What's next
 
-* Formatting options
+* More formatting options
 * Editing options
 * Customization options
 ---

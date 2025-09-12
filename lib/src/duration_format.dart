@@ -138,7 +138,13 @@ enum DurationFormat{
   /// // 1d12:45:30.250
   /// Duration(days: 5);
   /// // 5d00:00:00.000
-  /// Duration(days: 30, hours: 12, minutes: 30, seconds: 45, milliseconds: 999);
+  /// Duration(
+  ///   days: 30,
+  ///   hours: 12,
+  ///   minutes: 30,
+  ///   seconds: 45,
+  ///   milliseconds: 999,
+  /// );
   /// // 30d12:30:45.999 (days are not capped)
   /// ```
   ddhhmmssll,
