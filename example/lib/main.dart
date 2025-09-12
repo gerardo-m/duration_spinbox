@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: Colors.deepPurpleAccent,
         ),
         useMaterial3: true,
       ),
@@ -35,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Duration _duration = const Duration(minutes: 1);
+  DurationFormat _format = DurationFormat.mmmss;
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +78,23 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const Divider(),
             const Text('Changed format'),
-            const DurationSpinbox(
-              value: Duration(hours: 2, minutes: 1, seconds: 1, milliseconds: 100),
-              stepValue: Duration(seconds: 1),
-              format: DurationFormat.hhhmmssll,
+            DropdownButton(
+              value: _format,
+              items: [
+                for (var format in DurationFormat.values)
+                  DropdownMenuItem(value: format, child: Text(format.name)),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _format = value ?? DurationFormat.mmmss;
+                });
+              },
+            ),
+            DurationSpinbox(
+              value: const Duration(
+                  hours: 2, minutes: 1, seconds: 1, milliseconds: 100),
+              stepValue: const Duration(seconds: 1),
+              format: _format,
             ),
             const Divider(),
           ],
